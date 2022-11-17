@@ -18,4 +18,13 @@ class Rooms(Base):
         self.room_number = room_number
         self.doors_list = []
         self.requests_for_room = []
-        
+
+    def add_door(self, door: Door):
+        #Check for dupes
+        for test_door in self.doors_list:
+            if test_door == door:
+                return
+
+        #Create new instance of child Door
+        instance = Door(self)
+        door.rooms
