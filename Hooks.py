@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Identity, UniqueConstraint
+from sqlalchemy import Column, String, Integer, Identity
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
@@ -14,7 +14,7 @@ class Hooks(Base):
     # Object Init function
     def __init__(self, hook_id: Integer):
         self.hook_id = hook_id
-        self.keys_list = [] # May not need
+        self.keys_list = []
 
     # We may not need this since we can just use sess.add()
     def add_hook(self, new_hook):
