@@ -1,18 +1,21 @@
-from sqlalchemy import Column, String, Integer, Identity
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
-from Hooks import Hooks
-from Doors import Doors
+from Hooks import Hook
+from Doors import Door
+from Issued_Keys import IssuedKey
 
-class Keys(Base):
+class Key(Base):
+    __tablename__ = 'keys'
     # Instance Variables
     hook_id = Column(Integer, ForeignKey("hooks.hooks"), nullable=False, primary_key=True)
     room_number = Column(Integer, ForeignKey("doors.room_number"), nullable=False, primary_key=True)
     door_name = Column(String, ForeignKey("doors.door_name"), nullable=False, primary_key=True)
     # Relationships
-    door = relationships("Door", back_populates='keys_list')
-    hook = relationships("Hook", back_populates='keys_list')
+    door: Door = relationship("Door", back_populates='keys_list')
+    hook: Hook = relationship("Hook", back_populates='keys_list')
+    issued_key: IssuedKey = relationship("Issued_Key", back_popluates="key")
     # Class methods
     def __init__(self, door: Door, hook: Hook):
         self.door = door
@@ -22,5 +25,7 @@ class Keys(Base):
         self.room_number = self.door.room_number
         self.door_name = self.door.door_name
 
-    def add_key(self, opening_door: Doors, hook: Hooks):
-        
+    def add_key(self, opening_door: Door, hook: Hook):
+    # Try catch block to add Key to db
+
+    def issue_key(self, request: Request):

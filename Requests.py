@@ -1,15 +1,17 @@
 from sqlalchemy import Column, Integer, Date, ForeignKey
-from sqlalchemy.orm import Base
+from sqlalchemy.orm import relationship
+from orm_base import Base
 from datetime import date
 
-from Employees import Employees
-from Doors import Doors
-from Issued_Keys import IssuedKeys # For later :)
+from Employees import Employee
+from Rooms import Room
+from Issued_Keys import IssuedKey # For later :)
 
 class Request(Base):
+    __tablename__ = 'requests'
     # Define instance variables
-    employee_id = Column('employee_id', Integer, ForeignKey('employees.employee_id') nullable=False, primary_key=True)
-    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number') nullable=False, primary_key=True)
+    employee_id = Column('employee_id', Integer, ForeignKey('employees.employee_id'), nullable=False, primary_key=True)
+    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=True)
     request_date = Column('request_date', Date, nullable=False, primary_key=True)
     approval_date = Column('approval_date', Date, nullable=True)
 
