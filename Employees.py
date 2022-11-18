@@ -30,4 +30,4 @@ class Employee(Base):
 
         new_request = Request(self, room)
         room.employee_requests.append(new_request)
-        self.active_requests.apppend(new_request)
+        self.active_requests.append(new_request)

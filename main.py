@@ -21,9 +21,7 @@ from db_connection import Session, engine
 # that uses Base as its supertype will show up in the postgres.demo schema.
 from orm_base import metadata
 import logging
-from Section import Section
-from Student import Student
-from Enrollment import Enrollment
+
 
 
 if __name__ == '__main__':

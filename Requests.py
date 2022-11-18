@@ -5,7 +5,7 @@ from datetime import date
 
 from Employees import Employee
 from Rooms import Room
-from Issued_Keys import IssuedKey # For later :)
+from Issued_Keys import IssuedKey
 
 class Request(Base):
     __tablename__ = 'requests'
@@ -16,10 +16,9 @@ class Request(Base):
     approval_date = Column('approval_date', Date, nullable=True)
 
     # Relationship tracker
-    employee = relationship("Employee", back_populates="active_requests")
-    room_requested = relationship("Room", back_populates="employee_requests")
-    issued_key = relationship("Issued_Key", back_populates="request")
-
+    employee: Employee = relationship("Employee", back_populates="active_requests")
+    room_requested: Room = relationship("Room", back_populates="employee_requests")
+    issued_key: IssuedKey = relationship("Issued_Key", back_populates="request")
 
     # Class methods
     def __init__(self, employee: Employee, room: Room):
@@ -30,10 +29,8 @@ class Request(Base):
         # Table variables
         self.employee_id = self.employee.employee_id
         self.room_number = self.room.room_number
-        # Check the strftime() works w/ DDL
-        self.request_date = date.today().strftime("%Y-%m-%d")
+        self.request_date = date.today()
         self.approval_date = None
         # self.approval_date = NULL
 
-    def approve_request(self):
-        # Approval logic here!
+   # def approve_request(self):

@@ -25,7 +25,7 @@ class Key(Base):
         self.room_number = self.door.room_number
         self.door_name = self.door.door_name
 
-    def add_key(self, opening_door: Door, hook: Hook):
-    # Try catch block to add Key to db
+    #def add_key(self, opening_door: Door, hook: Hook):
 
-    def issue_key(self, request: Request):
+
+    #def issue_key(self, request: Request):
