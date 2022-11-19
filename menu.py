@@ -7,16 +7,16 @@ from Hooks import Hook
 from Issued_Keys import IssuedKey
 from Employees import Employee
 
-def menu():
-  print("[1] Create a new Key")
-  print("[2] Request Access")
-  print("[3] Check Room Access")
-  print("[4] Delete a Key")
-  print("[5] Delete Employee :(")
-  print("[6] Add new Door")
-  print("[7] Change Request")
-  print("[8] Lost key :(")
-  print("[9] Log room access")
+def menu(): # Pres order
+  print("[1] Create a new Key") # Jacob
+  print("[2] Request Access") # Angel
+  print("[3] Check Room Access") # Jacob
+  print("[4] Delete a Key") # Angel
+  print("[5] Delete Employee") # Jacob
+  print("[6] Add new Door") # Angel
+  print("[7] Change Request") # Jacob
+  print("[8] Lost key") # Angel
+  print("[9] Log room access") # Jacob
   print("[0] Quit")
 
 def io_Menu():
@@ -105,6 +105,7 @@ def io_Menu():
       else:
         sess.commit()
     return 0
+
   # Delete employee
   elif option == 5:
     with Session() as sess:

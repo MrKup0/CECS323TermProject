@@ -11,7 +11,7 @@ class Hook(Base):
     hook_id = Column('hook_id', Integer, nullable=False, primary_key=True)
 
     # Relationships
-    keys_list: [Key] = relationship("Keys", back_populates="hooks", viewonly=False)
+    keys_list: [Key] = relationship("Keys", back_populates="hook", viewonly=False)
 
     # Object Init function
     def __init__(self, hook_id: Integer):

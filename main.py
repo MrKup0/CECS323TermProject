@@ -19,6 +19,7 @@ from db_connection import Session, engine
 from orm_base import metadata
 
 import menu
+from Keys import Key
 
 
 
@@ -44,6 +45,9 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Welcome! Please select from our menu a list of options")
+        keys = sess.query(Key).all()
+        for i in keys:
+            print(i)
         res = menu.io_Menu()
         while res != 1:
             res = menu.io_Menu()
