@@ -2,8 +2,7 @@ from sqlalchemy import Column, Integer
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
-
-
+from Requests import Request
 
 class Employee(Base):
     # Define instance variables
@@ -12,7 +11,7 @@ class Employee(Base):
     amount_owed = Column('amount_owed', Integer, nullable=False, default=0)
 
     # Relationship tracker
-    active_requests = relationship("Request", back_populates="employee", viewonly=False)
+    active_requests: [Request] = relationship("Request", back_populates="employee", viewonly=False)
 
     # Class methods (or functions idk python vocab)
     def __init__(self, employee_id: Integer, amount_owed: Integer):

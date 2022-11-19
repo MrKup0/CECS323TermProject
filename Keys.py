@@ -2,8 +2,7 @@ from sqlalchemy import Column, String, Integer, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
-from Hooks import Hook
-from Doors import Door
+from Issued_Keys import IssuedKey
 
 
 class Key(Base):
@@ -17,13 +16,15 @@ class Key(Base):
     __table_args__ = (UniqueConstraint('hook_id', 'room_number', 'door_name'),)
 
     # Relationships
-    door = relationship("Door", back_populates='keys_list')
+    door = relationship("Door", primaryjoin="and_(Key.room_number == foreign(Door.room_number), "
+                        "Key.door_name == foreign(Door.door_name))", back_populates='keys_list')
     hook = relationship("Hook", back_populates='keys_list')
-    issued_key = relationship("Issued_Key", back_populates="key")
+    issued_key: [IssuedKey] = relationship("IssuedKey", back_populates="key")
     # Class methods
     def __init__(self, door, hook):
         self.door = door
         self.hook = hook
+        self.issued_key = []
 
         self.hook_id = self.hook.hook_id
         self.room_number = self.door.room_number

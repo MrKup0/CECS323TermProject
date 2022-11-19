@@ -4,9 +4,6 @@ from sqlalchemy.orm import relationship
 from orm_base import Base
 from datetime import date
 
-from Requests import Request
-from Keys import Key
-
 class IssuedKey(Base):
     __tablename__ = 'issued_keys'
 
@@ -27,11 +24,15 @@ class IssuedKey(Base):
     __table_args__ = (UniqueConstraint('employee_id', 'hook_id', 'approved_room', 'requested_room', 'door_name', 'request_date'),)
 
     # Relationship tracker
-    request: Request = relationship("Request", back_populates="issued_key")
-    key: Key = relationship("Key", back_populates="issued_key")
+    request = relationship("Request", primaryjoin="and_(IssuedKey.employee_id == foreign(Request.employee_id), "
+                           "IssuedKey.requested_room == foreign(Request.room_number), "
+                           "IssuedKey.request_date == foreign(Request.request_date))", back_populates="issued_key")
+    key = relationship("Key", primaryjoin="and_(IssuedKey.hook_id == foreign(Key.hook_id), "
+                       "IssuedKey.approved_room == foreign(Key.room_number), "
+                       "IssuedKey.door_name == foreign(Key.door_name))", back_populates="issued_key")
 
     # Class Methods
-    def __init__(self, request: Request, key: Key):
+    def __init__(self, request, key):
         self.request = request
         self.key = key
 

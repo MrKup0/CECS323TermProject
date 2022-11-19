@@ -3,8 +3,7 @@ from sqlalchemy.orm import relationship
 from orm_base import Base
 from datetime import date
 
-from Employees import Employee
-from Rooms import Room
+from Issued_Keys import IssuedKey
 
 
 class Request(Base):
@@ -18,12 +17,12 @@ class Request(Base):
     __table_args__ = (UniqueConstraint('employee_id', 'room_number'),)
 
     # Relationship tracker
-    employee: Employee = relationship("Employee", back_populates="active_requests")
-    room_requested: Room = relationship("Room", back_populates="employee_requests")
-    issued_key = relationship("Issued_Key", back_populates="request")
+    employee = relationship("Employee", back_populates="active_requests")
+    room_requested = relationship("Room", back_populates="employee_requests")
+    issued_key: IssuedKey = relationship("IssuedKey", back_populates="request")
 
     # Class methods
-    def __init__(self, employee: Employee, room: Room):
+    def __init__(self, employee, room):
         # Relationship variables
         self.employee = employee
         self.room_requested = room

@@ -94,6 +94,7 @@ def foo():
         sess.commit()
         print("Request created! Please await approval")
       except:
+        #sess.abort()
         print("Failed to create request")
 
   # Get employee room access
@@ -117,7 +118,10 @@ def foo():
 
   # Delete a key
   elif option == 4:
-    return
+    with Session() as sess:
+      fuck = sess.query(Key).all
+      for shit in fuck:
+        print(shit)
   # Delete employee
   elif option == 5:
     return

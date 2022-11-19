@@ -19,6 +19,7 @@ from db_connection import Session, engine
 from orm_base import metadata
 import logging
 import menu
+from Keys import Key
 
 
 
@@ -41,5 +42,10 @@ if __name__ == '__main__':
     # at the end of the with, much like what it would be like if you used a with to open a file.
     # This way, we do not have memory leaks.
     with Session() as sess:
+        sess.begin()
         print("Welcome! Please select from our menu a list of options")
-        err_log = menu.foo()
+        fuck = sess.query(Key).all()
+        for shit in fuck:
+            print(shit)
+
+        #err_log = menu.foo()

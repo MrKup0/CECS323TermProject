@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
-
+from Keys import Key
 
 class Hook(Base):
     # Base settup
@@ -11,7 +11,7 @@ class Hook(Base):
     hook_id = Column('hook_id', Integer, nullable=False, primary_key=True)
 
     # Relationships
-    keys_list = relationship("Keys", back_populates="hooks", viewonly=False)
+    keys_list: [Key] = relationship("Keys", back_populates="hooks", viewonly=False)
 
     # Object Init function
     def __init__(self, hook_id: Integer):
