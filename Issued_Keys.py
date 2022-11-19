@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, Date, ForeignKeyConstraint
+from sqlalchemy import \
+    Column, Integer, String, Boolean, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from orm_base import Base
 from datetime import date
@@ -10,21 +11,20 @@ class IssuedKey(Base):
     __tablename__ = 'issued_keys'
 
     # Define instance Variables
-    employee_id = Column(Integer, nullable=False, primary_key=True)
-    hook_id = Column(Integer, nullable=False, primary_key=True)
-    approved_room = Column(Integer, nullable=False, primary_key=True)
+    employee_id = Column(Integer, ForeignKey('requests.employee_id'), nullable=False, primary_key=True)
+    hook_id = Column(Integer, ForeignKey('keys.hook_id'), nullable=False, primary_key=True)
+    approved_room = Column(Integer, ForeignKey('keys.room_number'), nullable=False, primary_key=True)
 
-    requested_room = Column(Integer, nullable=False)
-    door_name = Column(String, nullable=False)
-    request_date = Column(Date, nullable=False)
+    requested_room = Column(Integer, ForeignKey('requests.room_number'), nullable=False)
+    door_name = Column(String, ForeignKey('keys.door_name'), nullable=False)
+    request_date = Column(Date, ForeignKey('requests.request_date'), nullable=False)
 
     issued_date = Column('issued_date', Date, nullable=False)
     return_date = Column('return_date', Date, nullable=False)
     date_returned = Column('date_returned', Date, nullable=True)
     is_valid = Column('is_valid', Boolean, nullable=False)
 
-    __table_args__ = ForeignKeyConstraint([employee_id, hook_id, approved_room, requested_room, door_name, request_date],
-                                          [Request.employee_id, Key.hook_id, Key.room_number, Request.room_number, Key.door_name, Request.request_date])
+    __table_args__ = (UniqueConstraint('employee_id', 'hook_id', 'approved_room', 'requested_room', 'door_name', 'request_date'),)
 
     # Relationship tracker
     request: Request = relationship("Request", back_populates="issued_key")
