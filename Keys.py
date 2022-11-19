@@ -1,23 +1,28 @@
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 from orm_base import Base
 
 from Hooks import Hook
 from Doors import Door
-from Issued_Keys import IssuedKey
+
 
 class Key(Base):
     __tablename__ = 'keys'
     # Instance Variables
-    hook_id = Column(Integer, ForeignKey("hooks.hooks"), nullable=False, primary_key=True)
-    room_number = Column(Integer, ForeignKey("doors.room_number"), nullable=False, primary_key=True)
-    door_name = Column(String, ForeignKey("doors.door_name"), nullable=False, primary_key=True)
+    hook_id = Column(Integer, nullable=False, primary_key=True)
+    room_number = Column(Integer, nullable=False, primary_key=True)
+    door_name = Column(String, nullable=False, primary_key=True)
+
+    # Composite Key
+    __table_args__ = (ForeignKeyConstraint([room_number, door_name, hook_id],
+                                           [Door.room_number, Door.door_name, Hook.hook_id]),{})
+
     # Relationships
-    door: Door = relationship("Door", back_populates='keys_list')
-    hook: Hook = relationship("Hook", back_populates='keys_list')
-    issued_key: IssuedKey = relationship("Issued_Key", back_popluates="key")
+    door = relationship("Door", back_populates='keys_list')
+    hook = relationship("Hook", back_populates='keys_list')
+    issued_key = relationship("Issued_Key", back_popluates="key")
     # Class methods
-    def __init__(self, door: Door, hook: Hook):
+    def __init__(self, door, hook):
         self.door = door
         self.hook = hook
 

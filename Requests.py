@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Date, ForeignKey
+from sqlalchemy import Column, Integer, Date, ForeignKeyConstraint
 from sqlalchemy.orm import relationship
 from orm_base import Base
 from datetime import date
@@ -10,10 +10,13 @@ from Issued_Keys import IssuedKey
 class Request(Base):
     __tablename__ = 'requests'
     # Define instance variables
-    employee_id = Column('employee_id', Integer, ForeignKey('employees.employee_id'), nullable=False, primary_key=True)
-    room_number = Column('room_number', Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=True)
+    employee_id = Column(Integer, nullable=False, primary_key=True)
+    room_number = Column(Integer, nullable=False, primary_key=True)
     request_date = Column('request_date', Date, nullable=False, primary_key=True)
     approval_date = Column('approval_date', Date, nullable=True)
+
+    __table_args__ = (ForeignKeyConstraint([employee_id, room_number],
+                                          [Employee.employee_id, Room.room_number]), {})
 
     # Relationship tracker
     employee: Employee = relationship("Employee", back_populates="active_requests")

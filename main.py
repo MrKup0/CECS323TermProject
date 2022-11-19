@@ -8,9 +8,6 @@ connectivity library, that is referenced when you run your entine."""
 
 # Think of Session and engine like global variables.  A little ghetto, but the only
 # other alternative would have been a singleton design pattern.
-from pprint import pprint
-
-import sqlalchemy.sql.functions
 
 # the db_connection.py code sets up some connection objects for us, almost like Java class variables
 # that get loaded up at run time.  This statement builds the Session class and the engine object
@@ -21,6 +18,7 @@ from db_connection import Session, engine
 # that uses Base as its supertype will show up in the postgres.demo schema.
 from orm_base import metadata
 import logging
+import menu
 
 
 
@@ -31,7 +29,7 @@ if __name__ == '__main__':
     # use the logging factory to create our second logger.
     logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
-    metadata.drop_all(bind=engine)  # start with a clean slate while in development
+    # metadata.drop_all(bind=engine)  # start with a clean slate while in development
 
     # Create whatever tables are called for by our "Entity" classes.  The simple fact that
     # your classes that are subtypes of Base have been loaded by Python has populated
@@ -39,36 +37,9 @@ if __name__ == '__main__':
     # those tables for us.
     metadata.create_all(bind=engine)
 
-    c1: Section = Section(department_name="CECS", course_name="Database Fundamentals",
-                          section_number=1, semester="Fall", year=2022)
-
-    s1: Student = Student(first_name="Jacob", last_name="Mitchell")
-    s2: Student = Student(first_name="Andrew", last_name="Appleton")
-    s3: Student = Student(first_name="Daniel", last_name="Keller")
-
     # Do our database work within a context.  This makes sure that the session gets closed
     # at the end of the with, much like what it would be like if you used a with to open a file.
     # This way, we do not have memory leaks.
     with Session() as sess:
-        sess.begin()
-        print ("Inside the session, woo hoo.")
-
-        # Add
-        sess.add(c1)
-        sess.add(s1)
-        sess.add(s2)
-        sess.add(s3)
-
-        # Commit
-        sess.commit()
-        print("Created Students and Course")
-
-        # Enroll
-        c1.add_student(s1)
-        c1.add_student(s2)
-        c1.add_student(s3)
-
-        # Commit
-        sess.commit()
-
-    print("Exiting normally.")
+        print("Welcome! Please select from our menu a list of options")
+        err_log = menu.foo()

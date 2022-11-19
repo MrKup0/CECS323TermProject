@@ -18,3 +18,10 @@ class Door(Base):
         self.room_number = self.room.room_number
         # room doesn't look like a real word anymore
         self.door_name = door_name
+        self.keys_list = []
+
+    def add_key(self, key: Key):
+        for i in self.keys_list:
+            if i == key:
+                return
+        self.keys_list.append(key)
