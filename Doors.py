@@ -5,13 +5,13 @@ from orm_base import Base
 from Keys import Key
 
 class Door(Base):
-    __tablename__ = 'Doors'
+    __tablename__ = 'doors'
     # Define Variables
     room_number = Column(Integer, ForeignKey('rooms.room_number'), nullable=False, primary_key=True)
     door_name = Column('door_name', String, nullable=False, primary_key=True)
     # Relationships
-    room = relationship("Room", back_populates='doors_list')
-    keys_list: [Key] = relationship("Key", back_populates='door')
+    room = relationship("Room", back_populates='doors_list', viewonly=False)
+    keys_list: [Key] = relationship("Key", back_populates='door', viewonly=False)
     # Instance Methods
     def __init__(self, room, door_name: String):
         self.room = room

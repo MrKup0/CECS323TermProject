@@ -19,11 +19,11 @@ class Room(Base):
         self.doors_list = []
         self.employee_requests = []
 
-    def add_door_str(self, door):
+    def add_door(self, door):
         # Check for dupe doors
         for i in self.doors_list:
             if i.door_name == door.door_name:
-                print("Failed to add door: " + door.door_name + "\nDoor " + i.door_name + " already exists for room "+ self.room_number)
+                print("Failed to add door: " + door.door_name + "\nDoor " + i.door_name + " already exists")
                 return
 
         self.doors_list.append(door)

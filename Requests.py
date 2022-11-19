@@ -17,9 +17,9 @@ class Request(Base):
     __table_args__ = (UniqueConstraint('employee_id', 'room_number'),)
 
     # Relationship tracker
-    employee = relationship("Employee", back_populates="active_requests")
-    room_requested = relationship("Room", back_populates="employee_requests")
-    issued_key: IssuedKey = relationship("IssuedKey", back_populates="request")
+    employee = relationship("Employee", back_populates="active_requests", viewonly=False)
+    room_requested = relationship("Room", back_populates="employee_requests", viewonly=False)
+    issued_key: IssuedKey = relationship("IssuedKey", back_populates="request", viewonly=False)
 
     # Class methods
     def __init__(self, employee, room):
@@ -32,6 +32,3 @@ class Request(Base):
         self.room_number = self.room.room_number
         self.request_date = date.today()
         self.approval_date = None
-        # self.approval_date = NULL
-
-   # def approve_request(self):

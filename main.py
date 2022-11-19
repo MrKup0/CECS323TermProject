@@ -17,18 +17,18 @@ from db_connection import Session, engine
 # stipulates that the schema that we're using is 'demo'.  Once that's established, any class
 # that uses Base as its supertype will show up in the postgres.demo schema.
 from orm_base import metadata
-import logging
+
 import menu
-from Keys import Key
+
 
 
 
 if __name__ == '__main__':
-    logging.basicConfig()
+    #logging.basicConfig()
     # use the logging factory to create our first logger.
-    logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
+    #logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
     # use the logging factory to create our second logger.
-    logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
+    #logging.getLogger("sqlalchemy.pool").setLevel(logging.DEBUG)
 
     # metadata.drop_all(bind=engine)  # start with a clean slate while in development
 
@@ -44,8 +44,8 @@ if __name__ == '__main__':
     with Session() as sess:
         sess.begin()
         print("Welcome! Please select from our menu a list of options")
-        fuck = sess.query(Key).all()
-        for shit in fuck:
-            print(shit)
+        res = menu.io_Menu()
+        while res != 1:
+            res = menu.io_Menu()
 
-        #err_log = menu.foo()
+    print("Exiting...")

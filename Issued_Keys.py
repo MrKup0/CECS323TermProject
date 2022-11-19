@@ -26,10 +26,10 @@ class IssuedKey(Base):
     # Relationship tracker
     request = relationship("Request", primaryjoin="and_(IssuedKey.employee_id == foreign(Request.employee_id), "
                            "IssuedKey.requested_room == foreign(Request.room_number), "
-                           "IssuedKey.request_date == foreign(Request.request_date))", back_populates="issued_key")
+                           "IssuedKey.request_date == foreign(Request.request_date))", back_populates="issued_key", viewonly=False)
     key = relationship("Key", primaryjoin="and_(IssuedKey.hook_id == foreign(Key.hook_id), "
                        "IssuedKey.approved_room == foreign(Key.room_number), "
-                       "IssuedKey.door_name == foreign(Key.door_name))", back_populates="issued_key")
+                       "IssuedKey.door_name == foreign(Key.door_name))", back_populates="issued_key", viewonly=False)
 
     # Class Methods
     def __init__(self, request, key):
